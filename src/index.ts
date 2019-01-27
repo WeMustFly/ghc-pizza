@@ -1,9 +1,5 @@
-import * as fs from 'fs'
+import Inputer from './Inputer'
 
-fs.readFile('./data/a_example.in', 'utf8', (err, data) => {
-    if (err) {
-        console.log(err)
-    } else {
-        console.log(data)
-    }
-})
+const a = new Inputer('./data/b_small.in', ['R', 'C', 'L', 'H'])
+console.log(a.variables)
+console.log(a.lines)
