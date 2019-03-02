@@ -1,26 +1,34 @@
+import Photo from './Photo'
+
 export default class Inputer {
     private fs = require('fs')
     private _data: string
-    private _lines: Array<string>
+    private _photos: Array<Photo>
     private _variables: any
 
     constructor (fileName: string, keys: Array<string>) {
         this._data = this.fs.readFileSync(fileName, 'utf8')
 
-        this._lines = this._data.split('\n')
+        const lines = this._data.split('\n')
 
         this._variables = {}
-        const firstLine = this._lines.shift()
-        this._lines.pop()
+        const firstLine = lines.shift()
+        lines.pop()
 
         if (firstLine) {
             const values: Array<number> = firstLine.split(' ').map(v => +v)
             values.map((v,i) => this._variables[keys[i]] = v)
         }
+
+        this._photos = []
+        for (let id in lines) {
+            const line = lines[id]
+            this._photos.push(new Photo(+id, line))
+        }
     }
 
-    get lines(): Array<string> {
-        return this._lines
+    get photos(): Array<Photo> {
+        return this._photos
     }
 
     get variables(): any {
